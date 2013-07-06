@@ -23,6 +23,8 @@
 		A80B7B4D1788B2D300196C06 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A80B7B281788B2D300196C06 /* Foundation.framework */; };
 		A80B7B551788B2D300196C06 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A80B7B531788B2D300196C06 /* InfoPlist.strings */; };
 		A80B7B581788B2D300196C06 /* _0KTimerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A80B7B571788B2D300196C06 /* _0KTimerTests.m */; };
+		A80B7B651788BA9500196C06 /* catdog.png in Resources */ = {isa = PBXBuildFile; fileRef = A80B7B631788BA9500196C06 /* catdog.png */; };
+		A80B7B661788BA9500196C06 /* catdog@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A80B7B641788BA9500196C06 /* catdog@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +60,8 @@
 		A80B7B541788B2D300196C06 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A80B7B561788B2D300196C06 /* _0KTimerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _0KTimerTests.h; sourceTree = "<group>"; };
 		A80B7B571788B2D300196C06 /* _0KTimerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _0KTimerTests.m; sourceTree = "<group>"; };
+		A80B7B631788BA9500196C06 /* catdog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = catdog.png; sourceTree = "<group>"; };
+		A80B7B641788BA9500196C06 /* catdog@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "catdog@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +134,7 @@
 		A80B7B2D1788B2D300196C06 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A80B7B611788BA6B00196C06 /* Images */,
 				A80B7B2E1788B2D300196C06 /* 10KTimer-Info.plist */,
 				A80B7B2F1788B2D300196C06 /* InfoPlist.strings */,
 				A80B7B321788B2D300196C06 /* main.m */,
@@ -158,6 +163,24 @@
 				A80B7B531788B2D300196C06 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A80B7B611788BA6B00196C06 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				A80B7B621788BA9500196C06 /* General */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		A80B7B621788BA9500196C06 /* General */ = {
+			isa = PBXGroup;
+			children = (
+				A80B7B631788BA9500196C06 /* catdog.png */,
+				A80B7B641788BA9500196C06 /* catdog@2x.png */,
+			);
+			name = General;
+			path = en.lproj/General;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -237,6 +260,8 @@
 				A80B7B3B1788B2D300196C06 /* Default@2x.png in Resources */,
 				A80B7B3D1788B2D300196C06 /* Default-568h@2x.png in Resources */,
 				A80B7B431788B2D300196C06 /* JDViewController.xib in Resources */,
+				A80B7B651788BA9500196C06 /* catdog.png in Resources */,
+				A80B7B661788BA9500196C06 /* catdog@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,6 +410,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "10KTimer/10KTimer-Prefix.pch";
 				INFOPLIST_FILE = "10KTimer/10KTimer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -396,6 +422,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "10KTimer/10KTimer-Prefix.pch";
 				INFOPLIST_FILE = "10KTimer/10KTimer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
