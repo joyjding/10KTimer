@@ -20,8 +20,31 @@
 - (void)viewDidLoad //before view loads the first time, do something
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+//	//UIImageView *pinkblock = [[UIImageView alloc]init];
+//    //pinkblock.image=[UIImage imageNamed:<#(NSString *)#>]
+//    UIView *pinkblock = [[UIView alloc]init]; //nested functions
+//    pinkblock.backgroundColor = [UIColor magentaColor];
+//    pinkblock.frame=CGRectMake(100.0f, 0.0f, 50.0f, 50.0f);
+//    
+//    [self.view addSubview:pinkblock]; //perform the method addSubview on self.view, with arg()
+    
+    //[self createBlock:[UIColor blueColor]];
+    
+    //[self [createBlock:blue]]; //call createBlock
+    
+    UIColor *newBlockColor = [UIColor blueColor]; //obj of type UIColor is blue UIColor object
+    UIView* newBlock =[self createBlock:newBlockColor]; //UiViewController: create block passing in blue UIColor object
+    [self.view addSubview:newBlock];
 }
+
+- (UIView*)createBlock:(UIColor*)color
+{
+    UIView *block = [[UIView alloc]init]; //nested functions
+    block.backgroundColor = color;
+    block.frame=CGRectMake(100.0f, 0.0f, 50.0f, 50.0f);
+    return block;
+}
+
 
 
 - (void) viewWillAppear:(BOOL)animated //happens anytime you go back to the screen
