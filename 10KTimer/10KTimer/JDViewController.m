@@ -9,42 +9,29 @@
 #import "JDViewController.h"
 
 @interface JDViewController () //properties go here (things that you want to interact with)
+
 @property (weak, nonatomic) IBOutlet UIImageView *catdog;
+
+@property (strong, nonatomic) NSArray *colorArray;
+
+@property (nonatomic) CGFloat blockStartingX;
+
 @end
 
 @implementation JDViewController
 
 
-// View lifecycle methods
+#pragma mark - View Lifecycle Methods
 
 - (void)viewDidLoad //before view loads the first time, do something
 {
     [super viewDidLoad];
-//	//UIImageView *pinkblock = [[UIImageView alloc]init];
-//    //pinkblock.image=[UIImage imageNamed:<#(NSString *)#>]
-//    UIView *pinkblock = [[UIView alloc]init]; //nested functions
-//    pinkblock.backgroundColor = [UIColor magentaColor];
-//    pinkblock.frame=CGRectMake(100.0f, 0.0f, 50.0f, 50.0f);
-//    
-//    [self.view addSubview:pinkblock]; //perform the method addSubview on self.view, with arg()
-    
-    //[self createBlock:[UIColor blueColor]];
-    
-    //[self [createBlock:blue]]; //call createBlock
-    
-    UIColor *newBlockColor = [UIColor blueColor]; //obj of type UIColor is blue UIColor object
-    UIView* newBlock =[self createBlock:newBlockColor]; //UiViewController: create block passing in blue UIColor object
-    [self.view addSubview:newBlock];
-}
 
-- (UIView*)createBlock:(UIColor*)color
-{
-    UIView *block = [[UIView alloc]init]; //nested functions
-    block.backgroundColor = color;
-    block.frame=CGRectMake(100.0f, 0.0f, 50.0f, 50.0f);
-    return block;
+    [self setupColorArray];
+    
+    self.blockStartingX = 0.0f;
+    
 }
-
 
 
 - (void) viewWillAppear:(BOOL)animated //happens anytime you go back to the screen
@@ -55,23 +42,13 @@
 - (void) viewDidAppear:(BOOL)animated //once screen is loaded, do this animation
 {
     [super viewDidAppear:animated];
-    
-    //NSLog(@"catdog image is %@", self.catdog);
-    //NSLog(@"image height is %f", self.catdog.frame.size.height);
-    [UIView animateWithDuration:60.0f
-                          delay:0.5f
-                         options:UIViewAnimationOptionCurveLinear
-                     animations:^(){
-                         self.catdog.frame=CGRectMake(0.0f, (self.view.frame.size.height-self.catdog.frame.size.height), self.catdog.frame.size.width, self.catdog.frame.size.height);
-                     }
-                     completion:^(BOOL finished) {
-                         NSLog(@"dropped block");
-                     }
-     ];
+
+    [NSTimer scheduledTimerWithTimeInterval:10.0f
+                                     target:self
+                                   selector:@selector(createAndAnimateBlock)
+                                   userInfo:nil
+                                    repeats:YES];
 }
-
-
-
 
 - (void) viewWillDisappear:(BOOL)animated //what happens when you navigate away from the view
 {
@@ -84,13 +61,54 @@
     [super viewDidUnload];
 }
 
-
-
+#pragma mark - Memory Management
 
 - (void)didReceiveMemoryWarning //gets called if phone freaks out. If this gets called repeatedly, app crashes
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Color Block logic
+
+
+- (UIView*)createBlock:(UIColor*)color
+{
+    UIView *block = [[UIView alloc]init]; //nested functions
+    block.backgroundColor = color;
+    block.frame = CGRectMake(100.0f, 0.0f, 50.0f, 50.0f);
+    return block;
+}
+
+- (void) createAndAnimateBlock
+{
+    // TODO: We are going to change this code to select a random color each time
+    // and to drop from an increasing-X each time.
+    
+    CGFloat xStartingPointForBlockAnimation = self.blockStartingX;
+    
+    UIColor *newBlockColor = [UIColor blueColor];
+    UIView* newBlock = [self createBlock:newBlockColor];
+    newBlock.frame = CGRectMake(xStartingPointForBlockAnimation, 0.0f, 50.0f, 50.0f);
+    [self.view addSubview:newBlock];
+    
+    
+    [UIView animateWithDuration:60.0f
+                          delay:0.5f
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^(){
+                         newBlock.frame=CGRectMake(xStartingPointForBlockAnimation, (self.view.frame.size.height-newBlock.frame.size.height), newBlock.frame.size.width, newBlock.frame.size.height);
+                     }
+                     completion:^(BOOL finished) {
+                         NSLog(@"dropped block");
+                     }
+     ];
+    
+}
+
+- (void) setupColorArray
+{
+    self.colorArray = @[[UIColor blueColor], [UIColor magentaColor], [UIColor greenColor]];
 }
 
 @end
