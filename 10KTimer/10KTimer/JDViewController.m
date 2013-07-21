@@ -22,7 +22,7 @@
 {
     [super viewDidLoad];
     
-    self.colorObjects = @[[UIColor blueColor], [UIColor redColor], [UIColor yellowColor], [UIColor whiteColor]];
+   // self.colorObjects = @[[UIColor blueColor], [UIColor redColor], [UIColor yellowColor], [UIColor whiteColor]];
     
     [NSTimer scheduledTimerWithTimeInterval:5.0f
                                      target:self selector:@selector(createBlockAndAnimate)
@@ -76,9 +76,15 @@
     NSInteger randStart = arc4random_uniform(5);
     NSInteger randEnd = arc4random_uniform(5);
     
-    NSInteger randInt = arc4random_uniform(self.colorObjects.count);
-    UIColor *newBlockColor = self.colorObjects[randInt];
-    UIView* newBlock =[self createBlock:newBlockColor]; //UiViewController: create block passing in blue UIColor object. Main view: create this block, doesn't show until added in subview
+    //NSInteger randInt = arc4random_uniform(self.colorObjects.count);
+    //UIColor *newBlockColor = self.colorObjects[randInt];
+    
+    CGFloat hue = ( arc4random() % 256 / 256.0 );  //  0.0 to 1.0
+    CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from white
+    CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from black
+    UIColor *color = [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
+    
+    UIView* newBlock =[self createBlock:color]; //UiViewController: create block passing in blue UIColor object. Main view: create this block, doesn't show until added in subview
     newBlock.frame=CGRectMake(kBlockSize*randStart, 0.0f, kBlockSize, kBlockSize);
     [self.view addSubview:newBlock];
     
