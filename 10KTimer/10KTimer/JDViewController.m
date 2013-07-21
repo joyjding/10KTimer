@@ -73,8 +73,8 @@
 
 - (void)createBlockAndAnimate
 {
-    NSInteger randStart = arc4random_uniform(4);
-    NSInteger randEnd = arc4random_uniform(4);
+    NSInteger randStart = arc4random_uniform(5);
+    NSInteger randEnd = arc4random_uniform(5);
     
     NSInteger randInt = arc4random_uniform(self.colorObjects.count);
     UIColor *newBlockColor = self.colorObjects[randInt];
