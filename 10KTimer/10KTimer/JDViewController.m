@@ -2,7 +2,7 @@
 //  JDViewController.m
 //  10KTimer
 //
-//  Created by Gemma Barlow on 7/6/13.
+//  Created by Gemma Barlow and Joy Ding on 7/6/13.
 //  Copyright (c) 2013 Hackbright. All rights reserved.
 //
 
@@ -22,12 +22,13 @@
 {
     [super viewDidLoad];
     
-   // self.colorObjects = @[[UIColor blueColor], [UIColor redColor], [UIColor yellowColor], [UIColor whiteColor]];
+//    [NSTimer scheduledTimerWithTimeInterval:5.0f
+//                                     target:self selector:@selector(createBlockAndAnimate)
+//                                   userInfo:nil
+//                                    repeats:YES];
+
+    [self createBlockAndAnimate];
     
-    [NSTimer scheduledTimerWithTimeInterval:5.0f
-                                     target:self selector:@selector(createBlockAndAnimate)
-                                   userInfo:nil
-                                    repeats:YES];
 }
 
 
@@ -73,31 +74,35 @@
 
 - (void)createBlockAndAnimate
 {
-    NSInteger randStart = arc4random_uniform(5);
-    NSInteger randEnd = arc4random_uniform(5);
-    
-    //NSInteger randInt = arc4random_uniform(self.colorObjects.count);
-    //UIColor *newBlockColor = self.colorObjects[randInt];
-    
-    CGFloat hue = ( arc4random() % 256 / 256.0 );  //  0.0 to 1.0
-    CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from white
-    CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from black
-    UIColor *color = [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
-    
-    UIView* newBlock =[self createBlock:color]; //UiViewController: create block passing in blue UIColor object. Main view: create this block, doesn't show until added in subview
-    newBlock.frame=CGRectMake(kBlockSize*randStart, 0.0f, kBlockSize, kBlockSize);
-    [self.view addSubview:newBlock];
-    
-    [UIView animateWithDuration:30.0f
-                          delay:0.5f
-                        options:UIViewAnimationOptionCurveLinear
-                     animations:^(){
-                         newBlock.frame=CGRectMake(kBlockSize*randEnd, (self.view.frame.size.height-newBlock.frame.size.height), newBlock.frame.size.width, newBlock.frame.size.height);
-                     }
-                     completion:^(BOOL finished) {
-                         NSLog(@"dropped block");
-                     }
-     ];
+    for (int i = 0 ; i<1; i++)
+    {
+        NSInteger randStart = arc4random_uniform(5); //generate a random start position
+        NSInteger randEnd = arc4random_uniform(5); //generate a random end position
+        
+        //generate a random color *color
+        CGFloat hue = ( arc4random() % 256 / 256.0 );  //  0.0 to 1.0
+        CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from white
+        CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from black
+        UIColor *color = [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
+        
+        //create block of color *color
+        UIView* newBlock =[self createBlock:color]; //Main view: create this block, doesn't show until added in subview
+        newBlock.frame=CGRectMake(kBlockSize*randStart, 0.0f, kBlockSize, kBlockSize);
+        
+        [self.view addSubview:newBlock]; //add block to main view (show block)
+        
+        //animate the block
+        [UIView animateWithDuration:30.0f
+                              delay:0.5f
+                            options:UIViewAnimationOptionCurveLinear
+                         animations:^(){
+                             newBlock.frame=CGRectMake(kBlockSize*randEnd, (self.view.frame.size.height-newBlock.frame.size.height), newBlock.frame.size.width, newBlock.frame.size.height);
+                         }
+                         completion:^(BOOL finished) {
+                             NSLog(@"dropped block");
+                         }
+         ];
+    }
 }
 
 
