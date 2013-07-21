@@ -21,13 +21,8 @@
 - (void)viewDidLoad //before view loads the first time, do something
 {
     [super viewDidLoad];
-    
-//    [NSTimer scheduledTimerWithTimeInterval:5.0f
-//                                     target:self selector:@selector(createBlockAndAnimate)
-//                                   userInfo:nil
-//                                    repeats:YES];
 
-    [self createBlockAndAnimate];
+    [self dropBlock];
     
 }
 
@@ -72,9 +67,23 @@
     return block;
 }
 
-- (void)createBlockAndAnimate
+
+- (void)dropBlock
 {
+    
     for (int i = 0 ; i<1; i++)
+    {
+        int counter;
+        counter = i;
+        
+        [NSTimer scheduledTimerWithTimeInterval:5.0f
+                                         target:self selector:@selector(createBlockAndAnimate:counter)
+                                       userInfo:nil
+                                        repeats:YES];
+    }
+}
+
+- (void)createBlockAndAnimate (int counter)
     {
         NSInteger randStart = arc4random_uniform(5); //generate a random start position
         NSInteger randEnd = arc4random_uniform(5); //generate a random end position
@@ -96,15 +105,16 @@
                               delay:0.5f
                             options:UIViewAnimationOptionCurveLinear
                          animations:^(){
-                             newBlock.frame=CGRectMake(kBlockSize*randEnd, (self.view.frame.size.height-newBlock.frame.size.height), newBlock.frame.size.width, newBlock.frame.size.height);
+                             newBlock.frame=CGRectMake(kBlockSize*randEnd, counter*(self.view.frame.size.height-newBlock.frame.size.height), newBlock.frame.size.width, newBlock.frame.size.height);
                          }
                          completion:^(BOOL finished) {
                              NSLog(@"dropped block");
                          }
-         ];
-    }
-}
-
+         
+         }
+         
+         
+    
 
 
 @end
