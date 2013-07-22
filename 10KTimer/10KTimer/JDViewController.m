@@ -22,7 +22,7 @@
 {
     [super viewDidLoad];
 
-    [self createBlockAndAnimate];
+    [self createBlockAndAnimate:2];
     
 }
 
@@ -88,9 +88,8 @@
     return block;
 }
 
-- (void)createBlockAndAnimate
+- (void) createBlockAndAnimate: (int)level
     {
-        NSInteger counter=4;
         
         NSInteger randStart = arc4random_uniform(5); //generate a random start position
         NSInteger randEnd = arc4random_uniform(5); //generate a random end position
@@ -103,31 +102,27 @@
         
         //create block of color *color
         UIView* newBlock =[self createBlock:color]; //Main view: create this block, doesn't show until added in subview
-        newBlock.frame=CGRectMake(kBlockSize*randStart, 0.0f, kBlockSize, kBlockSize);
+        newBlock.frame=CGRectMake(kBlockSize*randStart, 0.0f, kBlockSize, kBlockSize);//(x pos, y pos, width, height)
         
         [self.view addSubview:newBlock]; //add block to main view (show block)
         
         //animate the block
-        [UIView animateWithDuration:30.0f
+        [UIView animateWithDuration:10.0f
                               delay:0.5f
                             options:UIViewAnimationOptionCurveLinear
                          animations:^(){
-                             newBlock.frame=CGRectMake(kBlockSize*randEnd, (self.view.frame.size.height-(counter*newBlock.frame.size.height)), newBlock.frame.size.width, newBlock.frame.size.height);
+                             newBlock.frame=CGRectMake(0.0f, (568.0f-newBlock.frame.size.height) , 64.0f, 64.0f); //QUESTION: Why does this slip off the screen?
+                        
+                                                       
+                                                       //kBlockSize*randEnd, (self.view.frame.size.height-(level*kBlockSize)), newBlock.frame.size.width, newBlock.frame.size.height); //weird off by a lot error going on here
                          }
                          completion:^(BOOL finished) {
                              NSLog(@"dropped block");
                          }
          
          ];
-         
-    }
-
+        }
 @end
-
-
-
-
-
 
 
 
