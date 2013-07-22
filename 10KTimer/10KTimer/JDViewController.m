@@ -111,13 +111,16 @@
                               delay:0.5f
                             options:UIViewAnimationOptionCurveLinear
                          animations:^(){
-                             newBlock.frame=CGRectMake(0.0f, (568.0f-newBlock.frame.size.height) , 64.0f, 64.0f); //QUESTION: Why does this slip off the screen?
+                             newBlock.frame=CGRectMake(0.0f, (400.0f) , 64.0f, 64.0f); //QUESTION: Why does this slip off the screen?
                         
                                                        
                                                        //kBlockSize*randEnd, (self.view.frame.size.height-(level*kBlockSize)), newBlock.frame.size.width, newBlock.frame.size.height); //weird off by a lot error going on here
                          }
                          completion:^(BOOL finished) {
+                             //NSString frameHeight= self.frame.size.height;
+                             //NSLog(frameHeight);
                              NSLog(@"dropped block");
+                             //NSLog(@"dropped block", frameHeight);
                          }
          
          ];
