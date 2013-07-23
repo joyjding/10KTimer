@@ -21,8 +21,6 @@
 - (void)viewDidLoad //before view loads the first time, do something
 {
     [super viewDidLoad];
-
-    [self createBlockAndAnimate:2];
     
 }
 
@@ -35,7 +33,9 @@
 
 - (void) viewDidAppear:(BOOL)animated //once screen is loaded, do this animation
 {
-    [super viewDidAppear:animated];    
+    [super viewDidAppear:animated];
+    
+    [self createBlockAndAnimate:5];
 }
 
 
@@ -111,7 +111,7 @@
                               delay:0.5f
                             options:UIViewAnimationOptionCurveLinear
                          animations:^(){
-                             newBlock.frame=CGRectMake(0.0f, (400.0f) , 64.0f, 64.0f); //QUESTION: Why does this slip off the screen?
+                                newBlock.frame=CGRectMake(0.0f, CGRectGetHeight(newBlock.superview.bounds)-level*CGRectGetHeight(newBlock.frame), 64.0f, 64.0f); //QUESTION: Why does this slip off the screen?
                         
                                                        
                                                        //kBlockSize*randEnd, (self.view.frame.size.height-(level*kBlockSize)), newBlock.frame.size.width, newBlock.frame.size.height); //weird off by a lot error going on here
@@ -119,6 +119,7 @@
                          completion:^(BOOL finished) {
                              //NSString frameHeight= self.frame.size.height;
                              //NSLog(frameHeight);
+                             newBlock.bounds = newBlock.bounds;
                              NSLog(@"dropped block");
                              //NSLog(@"dropped block", frameHeight);
                          }
