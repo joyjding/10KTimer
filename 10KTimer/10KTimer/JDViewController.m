@@ -22,13 +22,6 @@
 {
     [super viewDidLoad];
     
-//    [NSTimer scheduledTimerWithTimeInterval:5.0f
-//                                     target:self selector:@selector(createBlockAndAnimate)
-//                                   userInfo:nil
-//                                    repeats:YES];
-
-    [self createBlockAndAnimate];
-    
 }
 
 
@@ -40,7 +33,9 @@
 
 - (void) viewDidAppear:(BOOL)animated //once screen is loaded, do this animation
 {
-    [super viewDidAppear:animated];    
+    [super viewDidAppear:animated];
+    
+    [self createBlockAndAnimate:5];
 }
 
 
@@ -63,6 +58,27 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
+#pragma mark - Block Position
+
+//- (int)whereBlock
+//{
+//    
+//    
+//    
+//    for (int i = 0 ; i<1; i++)
+//    {
+//        int counter;
+//        counter = i;
+//        
+//        [NSTimer scheduledTimerWithTimeInterval:5.0f
+//                                         target:self selector:@selector(createBlockAndAnimate:counter)
+//                                       userInfo:nil
+//                                        repeats:YES];
+//    }
+//}
+
 #pragma mark - Create Block Functions
 
 - (UIView*)createBlock:(UIColor*)color
@@ -72,10 +88,9 @@
     return block;
 }
 
-- (void)createBlockAndAnimate
-{
-    for (int i = 0 ; i<1; i++)
+- (void) createBlockAndAnimate: (int)level
     {
+        
         NSInteger randStart = arc4random_uniform(5); //generate a random start position
         NSInteger randEnd = arc4random_uniform(5); //generate a random end position
         
@@ -87,32 +102,31 @@
         
         //create block of color *color
         UIView* newBlock =[self createBlock:color]; //Main view: create this block, doesn't show until added in subview
-        newBlock.frame=CGRectMake(kBlockSize*randStart, 0.0f, kBlockSize, kBlockSize);
+        newBlock.frame=CGRectMake(kBlockSize*randStart, 0.0f, kBlockSize, kBlockSize);//(x pos, y pos, width, height)
         
         [self.view addSubview:newBlock]; //add block to main view (show block)
         
         //animate the block
-        [UIView animateWithDuration:30.0f
+        [UIView animateWithDuration:10.0f
                               delay:0.5f
                             options:UIViewAnimationOptionCurveLinear
                          animations:^(){
-                             newBlock.frame=CGRectMake(kBlockSize*randEnd, (self.view.frame.size.height-newBlock.frame.size.height), newBlock.frame.size.width, newBlock.frame.size.height);
+                                newBlock.frame=CGRectMake(0.0f, CGRectGetHeight(newBlock.superview.bounds)-level*CGRectGetHeight(newBlock.frame), 64.0f, 64.0f); //QUESTION: Why does this slip off the screen?
+                        
+                                                       
+                                                       //kBlockSize*randEnd, (self.view.frame.size.height-(level*kBlockSize)), newBlock.frame.size.width, newBlock.frame.size.height); //weird off by a lot error going on here
                          }
                          completion:^(BOOL finished) {
+                             //NSString frameHeight= self.frame.size.height;
+                             //NSLog(frameHeight);
+                             newBlock.bounds = newBlock.bounds;
                              NSLog(@"dropped block");
+                             //NSLog(@"dropped block", frameHeight);
                          }
+         
          ];
-    }
-}
-
-
-
+        }
 @end
-
-
-
-
-
 
 
 
