@@ -46,7 +46,7 @@
     [super viewWillDisappear:animated];
 }
 
-- (void) viewDidUnload // very last thing you can do (called) on the way out. 
+- (void) viewDidUnload // never gets called anymore. so could be deleted!
 {
     /// Do something
     [super viewDidUnload];
@@ -111,7 +111,7 @@
                               delay:0.5f
                             options:UIViewAnimationOptionCurveLinear
                          animations:^(){
-                                newBlock.frame=CGRectMake(0.0f, CGRectGetHeight(newBlock.superview.bounds)-level*CGRectGetHeight(newBlock.frame), 64.0f, 64.0f); //QUESTION: Why does this slip off the screen?
+                                newBlock.frame=CGRectMake(randEnd*CGRectGetWidth(newBlock.frame), CGRectGetHeight(newBlock.superview.bounds)-level*CGRectGetHeight(newBlock.frame), 64.0f, 64.0f); //QUESTION: Why does this slip off the screen?
                         
                                                        
                                                        //kBlockSize*randEnd, (self.view.frame.size.height-(level*kBlockSize)), newBlock.frame.size.width, newBlock.frame.size.height); //weird off by a lot error going on here
@@ -120,7 +120,7 @@
                              //NSString frameHeight= self.frame.size.height;
                              //NSLog(frameHeight);
                              newBlock.bounds = newBlock.bounds;
-                             NSLog(@"dropped block");
+                             NSLog(@"dropped block %@", NSStringFromCGRect(newBlock.bounds)); //@ for any NS object
                              //NSLog(@"dropped block", frameHeight);
                          }
          
