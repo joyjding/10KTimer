@@ -35,7 +35,14 @@
 {
     [super viewDidAppear:animated];
     
-    [self createBlockAndAnimate:5];
+    for (int level = 1; level<9; level++) {
+    
+        [self createBlockAndAnimate:level];
+        [self createBlockAndAnimate:level];
+        [self createBlockAndAnimate:level];
+        [self createBlockAndAnimate:level];
+        [self createBlockAndAnimate:level];
+    }    
 }
 
 
@@ -75,7 +82,7 @@
 //        [NSTimer scheduledTimerWithTimeInterval:5.0f
 //                                         target:self selector:@selector(createBlockAndAnimate:counter)
 //                                       userInfo:nil
-//                                        repeats:YES];
+//                                        repeats:YES]; //How do I pass an argument into this timer object?
 //    }
 //}
 
@@ -123,7 +130,6 @@
                              NSLog(@"dropped block %@", NSStringFromCGRect(newBlock.bounds)); //@ for any NS object
                              //NSLog(@"dropped block", frameHeight);
                          }
-         
          ];
         }
 @end
