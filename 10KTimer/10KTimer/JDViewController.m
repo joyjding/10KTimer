@@ -107,6 +107,7 @@
     
     //Main view: create this block, doesn't show until added in subview
     newBlock.frame=CGRectMake(kBlockSize*randStart, 0.0f, kBlockSize, kBlockSize);//(x pos, y pos, width, height)
+    newBlock.alpha = 0.0f;
     
     [self.view addSubview:newBlock]; //add block to main view (show block)
     
@@ -115,14 +116,13 @@
     CGFloat newBlockOriginX = endX*CGRectGetWidth(newBlock.frame);
     CGFloat newBlockOriginY = CGRectGetHeight(newBlock.superview.bounds)-level*CGRectGetHeight(newBlock.frame);
     
-    
-    
     [UIView animateWithDuration:10.0f
                           delay:0.5f
                         options:UIViewAnimationOptionCurveLinear
                      animations:^()
                                     {
                                         newBlock.frame=CGRectMake(newBlockOriginX, newBlockOriginY, kBlockSize, kBlockSize);
+                                        newBlock.alpha = 1.0f; //changes transparency of block as it falls down
                                     }
                                         completion:^(BOOL finished) {
                          
