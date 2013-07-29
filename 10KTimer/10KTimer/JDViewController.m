@@ -23,8 +23,6 @@
     [super viewDidLoad];
 }
 
-
-
 - (void) viewWillAppear:(BOOL)animated //happens anytime you go back to the screen
 {
     [super viewWillAppear:animated];
@@ -35,13 +33,13 @@
     [super viewDidAppear:animated];
     
     for (int level = 1; level<9; level++) {
-    
-        [self createBlockAndAnimate:level];
-        [self createBlockAndAnimate:level];
-        [self createBlockAndAnimate:level];
-        [self createBlockAndAnimate:level];
-        [self createBlockAndAnimate:level];
-    }    
+        NSMutableArray* xList =[self createRandomXPositions];
+        NSLog(@"xList array is %@", xList);
+        for (int blockNumber = 0; blockNumber<5; blockNumber++) {
+            int endXValue = [(NSNumber*)xList[blockNumber] integerValue]; //the () performs a cast. It's not a function call, just type indication
+            [self createBlockAndAnimate:level endX:endXValue];
+        }
+    }
 }
 
 //function that ns timer could call, that would create a block every s seconds, and change level every 5 blocks
@@ -65,26 +63,6 @@
 }
 
 
-
-#pragma mark - Block Position
-
-//- (int)whereBlock
-//{
-//    
-//    
-//    
-//    for (int i = 0 ; i<1; i++)
-//    {
-//        int counter;
-//        counter = i;
-//        
-//        [NSTimer scheduledTimerWithTimeInterval:5.0f
-//                                         target:self selector:@selector(createBlockAndAnimate:counter)
-//                                       userInfo:nil
-//                                        repeats:YES]; //How do I pass an argument into this timer object? Using userInfo
-//    }
-//}
-
 #pragma mark - Create Block Functions
 
 - (UIView*)createBlock:(UIColor*)color
@@ -104,14 +82,28 @@
     return color;
 }
 
+- (NSMutableArray*) createRandomXPositions
+{
+    NSArray* endXPositions = @[@0,@1,@2,@3,@4];//make an array each time we move levels //@ makes it an NSinteger which can be a float or an integer. Apparently arrays don't take numbers in objective c????
+    NSMutableArray *endXPositionsMutable = [NSMutableArray arrayWithArray:endXPositions];//super strange conversion to NSMutableArray
+    
+    NSLog(@"endXPositionsMutable %@ ", endXPositionsMutable);
+    NSMutableArray *randomXPositions = [NSMutableArray array]; //array creates an empy array
+    for (int i = 0;i<5; i++ ) {
+        NSInteger index = arc4random_uniform([endXPositionsMutable count]-1); //changed this from a static number:4, to the length of endXPositionsMutable -1
+        [randomXPositions addObject:endXPositionsMutable[index]];
+        [endXPositionsMutable removeObjectAtIndex:index];
+        NSLog(@"endXPositionsMutable %@ ", endXPositionsMutable);
+    }
+    return randomXPositions; //convert NSMutableArray to array?
+}
 
-- (void) createBlockAndAnimate: (int)level
+- (void) createBlockAndAnimate: (int) level endX:(int)endX //two parameters
 {
     UIColor* color = [self createRandomColor]; //b/c we're calling this method from inside this view controller, use []
-    UIView* newBlock =[self createBlock:color];
+    UIView* newBlock =[self createBlock: color]; //UIColor here is a function call that makes a new UIColor object
     
     NSInteger randStart = arc4random_uniform(5); //generate a random start position
-    NSInteger randEnd = arc4random_uniform(5); //generate a random end position
     
     //Main view: create this block, doesn't show until added in subview
     newBlock.frame=CGRectMake(kBlockSize*randStart, 0.0f, kBlockSize, kBlockSize);//(x pos, y pos, width, height)
@@ -120,7 +112,7 @@
     
     //animate the block
     //CGFloat is a primitive type, so it doesn't need a *, because it doesn't need a pointer
-    CGFloat newBlockOriginX = randEnd*CGRectGetWidth(newBlock.frame);
+    CGFloat newBlockOriginX = endX*CGRectGetWidth(newBlock.frame);
     CGFloat newBlockOriginY = CGRectGetHeight(newBlock.superview.bounds)-level*CGRectGetHeight(newBlock.frame);
     
     

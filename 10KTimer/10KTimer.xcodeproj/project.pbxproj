@@ -23,8 +23,6 @@
 		A80B7B4D1788B2D300196C06 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A80B7B281788B2D300196C06 /* Foundation.framework */; };
 		A80B7B551788B2D300196C06 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A80B7B531788B2D300196C06 /* InfoPlist.strings */; };
 		A80B7B581788B2D300196C06 /* _0KTimerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A80B7B571788B2D300196C06 /* _0KTimerTests.m */; };
-		A80B7B651788BA9500196C06 /* catdog.png in Resources */ = {isa = PBXBuildFile; fileRef = A80B7B631788BA9500196C06 /* catdog.png */; };
-		A80B7B661788BA9500196C06 /* catdog@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A80B7B641788BA9500196C06 /* catdog@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -260,8 +258,6 @@
 				A80B7B3B1788B2D300196C06 /* Default@2x.png in Resources */,
 				A80B7B3D1788B2D300196C06 /* Default-568h@2x.png in Resources */,
 				A80B7B431788B2D300196C06 /* JDViewController.xib in Resources */,
-				A80B7B651788BA9500196C06 /* catdog.png in Resources */,
-				A80B7B661788BA9500196C06 /* catdog@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
