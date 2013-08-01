@@ -10,17 +10,23 @@
 
 @interface JDViewController () //properties go here (things that you want to interact with)
 @property (strong, nonatomic) NSArray *colorObjects;
+@property (strong, nonatomic) NSTimer *timer;
+@property (strong, nonatomic) NSDate *currentTimerStart;
+@property (nonatomic) NSTimeInterval timeElapsed;
 @end
 
 @implementation JDViewController
 
 #define kBlockSize 64.0f
+#define kLevels 8
+#define kNumberOfBlocks 5
 
 
 
 - (void)viewDidLoad //before view loads the first time, do something
 {
     [super viewDidLoad];
+    self.timeElapsed = 0.0f;
 }
 
 - (void) viewWillAppear:(BOOL)animated //happens anytime you go back to the screen
@@ -32,10 +38,10 @@
 {
     [super viewDidAppear:animated];
     
-    for (int level = 1; level<9; level++) {
+    for (int level = 0; level<kLevels; level++) {
         NSMutableArray* xList =[self createRandomXPositions];
         NSLog(@"xList array is %@", xList);
-        for (int blockNumber = 0; blockNumber<5; blockNumber++) {
+        for (int blockNumber = 0; blockNumber<kNumberOfBlocks; blockNumber++) {
             int endXValue = [(NSNumber*)xList[blockNumber] integerValue]; //the () performs a cast. It's not a function call, just type indication
             [self createBlockAndAnimate:level endX:endXValue];
         }
@@ -84,18 +90,16 @@
 
 - (NSMutableArray*) createRandomXPositions
 {
-    NSArray* endXPositions = @[@0,@1,@2,@3,@4];//make an array each time we move levels //@ makes it an NSinteger which can be a float or an integer. Apparently arrays don't take numbers in objective c????
+    NSArray* endXPositions = @[@0,@1,@2,@3,@4];//make an array each time we move levels //@ makes it an NSinteger which can be a float or an integer. Apparently arrays don't take numbers in objective c???? //TODO change this to generically generate endXPositions
     NSMutableArray *endXPositionsMutable = [NSMutableArray arrayWithArray:endXPositions];//super strange conversion to NSMutableArray
-    
-    NSLog(@"endXPositionsMutable %@ ", endXPositionsMutable);
+
     NSMutableArray *randomXPositions = [NSMutableArray array]; //array creates an empy array
-    for (int i = 0;i<5; i++ ) {
+    for (int i = 0;i<kNumberOfBlocks; i++ ) {
         NSInteger index = arc4random_uniform([endXPositionsMutable count]-1); //changed this from a static number:4, to the length of endXPositionsMutable -1
         [randomXPositions addObject:endXPositionsMutable[index]];
         [endXPositionsMutable removeObjectAtIndex:index];
-        NSLog(@"endXPositionsMutable %@ ", endXPositionsMutable);
     }
-    return randomXPositions; //convert NSMutableArray to array?
+    return randomXPositions;
 }
 
 - (void) createBlockAndAnimate: (int) level endX:(int)endX //two parameters
@@ -103,7 +107,7 @@
     UIColor* color = [self createRandomColor]; //b/c we're calling this method from inside this view controller, use []
     UIView* newBlock =[self createBlock: color]; //UIColor here is a function call that makes a new UIColor object
     
-    NSInteger randStart = arc4random_uniform(5); //generate a random start position
+    NSInteger randStart = arc4random_uniform(kNumberOfBlocks); //generate a random start position
     
     //Main view: create this block, doesn't show until added in subview
     newBlock.frame=CGRectMake(kBlockSize*randStart, 0.0f, kBlockSize, kBlockSize);//(x pos, y pos, width, height)
@@ -125,11 +129,29 @@
                                         newBlock.alpha = 1.0f; //changes transparency of block as it falls down
                                     }
                                         completion:^(BOOL finished) {
-                         
-                         NSLog(@"dropped block"); //@ for any NS object //ask J about this
-                         //NSLog(@"dropped block", frameHeight);
                      }
      ];
+}
+
+- (IBAction) switchAction:(id) onOff //technically a void function, but putting in IBAction to talk to Interface Builder
+{ 
+    UISwitch *switchControl = (UISwitch*) onOff;
+    if (switchControl.on)
+    {
+            self.currentTimerStart = [NSDate date];
+            self.timer = [NSTimer scheduledTimerWithTimeInterval:5.0f target:nil selector:nil userInfo:nil repeats:NO];
+            NSLog(@"fireDate is %@. currentTimerStart is %@", [self.timer fireDate], self.currentTimerStart);
+    }
+    else
+    {
+        NSLog(@"Timer started at: %@ ", self.currentTimerStart);
+        [self.timer invalidate];
+        NSLog(@"End time: %@", [NSDate date]);
+        NSTimeInterval timeToAdd = [[NSDate date] timeIntervalSinceDate:self.currentTimerStart];
+        self.timeElapsed += timeToAdd;
+        NSLog(@"Time elapsed %lf ", self.timeElapsed);
+    }
+
 }
 @end
 
