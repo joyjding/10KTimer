@@ -13,6 +13,10 @@
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSDate *currentTimerStart;
 @property (nonatomic) NSTimeInterval timeElapsed;
+@property(nonatomic) NSInteger level;
+@property(strong, nonatomic) NSArray *randomXPositions;
+@property(nonatomic) NSInteger endXIndex;
+
 @end
 
 @implementation JDViewController
@@ -20,6 +24,7 @@
 #define kBlockSize 64.0f
 #define kLevels 8
 #define kNumberOfBlocks 5
+#define kCreateBlockInterval 1.0f
 
 
 
@@ -27,6 +32,9 @@
 {
     [super viewDidLoad];
     self.timeElapsed = 0.0f;
+    self.level = 1;
+    self.endXIndex = 0;
+    self.randomXPositions = [self createRandomXPositions];
 }
 
 - (void) viewWillAppear:(BOOL)animated //happens anytime you go back to the screen
@@ -113,7 +121,7 @@
     CGFloat newBlockOriginX = endX*CGRectGetWidth(newBlock.frame);
     CGFloat newBlockOriginY = CGRectGetHeight(newBlock.superview.bounds)-level*CGRectGetHeight(newBlock.frame);
     
-    [UIView animateWithDuration:10.0f
+    [UIView animateWithDuration:4.0f
                           delay:0.5f
                         options:UIViewAnimationOptionCurveLinear
                      animations:^()
@@ -126,32 +134,40 @@
      ];
 }
 
-
-- (void) startBlocks
-{
-    for (int level = 0; level<kLevels; level++) {
-        NSMutableArray* xList =[self createRandomXPositions];
-        for (int blockNumber = 0; blockNumber<kNumberOfBlocks; blockNumber++) {
-            int endXValue = [(NSNumber*)xList[blockNumber] integerValue]; //the () performs a cast. It's not a function call, just type indication
-            [self createBlockAndAnimate:level endX:endXValue];
-        }
+- (void) createAndAnimateNextBlock
+{    
+    // Check if we have finished all the levels > if so, do nothing
+    if (self.level == kLevels) {
+        NSLog(@"We're done generating blocks!");
+        return;
     }
+    
+    // Check if we have already produced the last block in the level > if so, increase the level #
+    // and generate a new set of end positions
+    if (self.endXIndex == kNumberOfBlocks)
+    {
+        self.randomXPositions = [self createRandomXPositions];
+        self.endXIndex = 0;
+        self.level++;
+    }
+    
+    // Create and animate next block using level and the end X value
+    if (self.level != kLevels)
+    {
+    int endXValue = [(NSNumber*)self.randomXPositions[self.endXIndex] integerValue];
+    
+    [self createBlockAndAnimate:self.level endX:endXValue];
+    self.endXIndex++;
+    }
+    
 }
 
 - (void) startTimer
 {
     self.currentTimerStart = [NSDate date];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:5.0f target:nil selector:nil userInfo:nil repeats:NO];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:kCreateBlockInterval target:self selector:@selector(createAndAnimateNextBlock) userInfo:nil repeats:YES];
     NSLog(@"fireDate is %@. currentTimerStart is %@", [self.timer fireDate], self.currentTimerStart);
-
-    for (int level = 0; level<kLevels; level++) {
-        NSMutableArray* xList =[self createRandomXPositions];
-        for (int blockNumber = 0; blockNumber<kNumberOfBlocks; blockNumber++) {
-            int endXValue = [(NSNumber*)xList[blockNumber] integerValue]; //the () performs a cast. It's not a function call, just type indication
-            [self createBlockAndAnimate:level endX:endXValue];
-        }
     }
-}
 
 -(void) stopTimer
 {
