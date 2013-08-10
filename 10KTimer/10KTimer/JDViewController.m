@@ -37,15 +37,7 @@
 - (void) viewDidAppear:(BOOL)animated //once screen is loaded, do this animation
 {
     [super viewDidAppear:animated];
-    
-    for (int level = 0; level<kLevels; level++) {
-        NSMutableArray* xList =[self createRandomXPositions];
-        NSLog(@"xList array is %@", xList);
-        for (int blockNumber = 0; blockNumber<kNumberOfBlocks; blockNumber++) {
-            int endXValue = [(NSNumber*)xList[blockNumber] integerValue]; //the () performs a cast. It's not a function call, just type indication
-            [self createBlockAndAnimate:level endX:endXValue];
-        }
-    }
+
 }
 
 //function that ns timer could call, that would create a block every s seconds, and change level every 5 blocks
@@ -71,7 +63,7 @@
 
 #pragma mark - Create Block Functions
 
-- (UIView*)createBlock:(UIColor*)color
+- (UIView*)createColorBlock:(UIColor*)color
 {
     UIView *block = [[UIView alloc]init]; //nested functions
     block.backgroundColor = color;
@@ -90,7 +82,7 @@
 
 - (NSMutableArray*) createRandomXPositions
 {
-    NSArray* endXPositions = @[@0,@1,@2,@3,@4];//make an array each time we move levels //@ makes it an NSinteger which can be a float or an integer. Apparently arrays don't take numbers in objective c???? //TODO change this to generically generate endXPositions
+    NSArray* endXPositions = @[@0,@1,@2,@3,@4];//make an array each time we move levels //@ makes it an NSinteger which can be a float or an integer. Apparently arrays don't take numbers in objective c????
     NSMutableArray *endXPositionsMutable = [NSMutableArray arrayWithArray:endXPositions];//super strange conversion to NSMutableArray
 
     NSMutableArray *randomXPositions = [NSMutableArray array]; //array creates an empy array
@@ -104,8 +96,9 @@
 
 - (void) createBlockAndAnimate: (int) level endX:(int)endX //two parameters
 {
+    
     UIColor* color = [self createRandomColor]; //b/c we're calling this method from inside this view controller, use []
-    UIView* newBlock =[self createBlock: color]; //UIColor here is a function call that makes a new UIColor object
+    UIView* newBlock =[self createColorBlock: color]; //UIColor here is a function call that makes a new UIColor object
     
     NSInteger randStart = arc4random_uniform(kNumberOfBlocks); //generate a random start position
     
@@ -133,23 +126,53 @@
      ];
 }
 
+
+- (void) startBlocks
+{
+    for (int level = 0; level<kLevels; level++) {
+        NSMutableArray* xList =[self createRandomXPositions];
+        for (int blockNumber = 0; blockNumber<kNumberOfBlocks; blockNumber++) {
+            int endXValue = [(NSNumber*)xList[blockNumber] integerValue]; //the () performs a cast. It's not a function call, just type indication
+            [self createBlockAndAnimate:level endX:endXValue];
+        }
+    }
+}
+
+- (void) startTimer
+{
+    self.currentTimerStart = [NSDate date];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:5.0f target:nil selector:nil userInfo:nil repeats:NO];
+    NSLog(@"fireDate is %@. currentTimerStart is %@", [self.timer fireDate], self.currentTimerStart);
+
+    for (int level = 0; level<kLevels; level++) {
+        NSMutableArray* xList =[self createRandomXPositions];
+        for (int blockNumber = 0; blockNumber<kNumberOfBlocks; blockNumber++) {
+            int endXValue = [(NSNumber*)xList[blockNumber] integerValue]; //the () performs a cast. It's not a function call, just type indication
+            [self createBlockAndAnimate:level endX:endXValue];
+        }
+    }
+}
+
+-(void) stopTimer
+{
+    NSLog(@"Timer started at: %@ ", self.currentTimerStart);
+    [self.timer invalidate];
+    NSLog(@"End time: %@", [NSDate date]);
+    NSTimeInterval timeToAdd = [[NSDate date] timeIntervalSinceDate:self.currentTimerStart];
+    self.timeElapsed += timeToAdd;
+    NSLog(@"Time elapsed %lf ", self.timeElapsed);
+}
+
 - (IBAction) switchAction:(id) onOff //technically a void function, but putting in IBAction to talk to Interface Builder
 { 
     UISwitch *switchControl = (UISwitch*) onOff;
     if (switchControl.on)
     {
-            self.currentTimerStart = [NSDate date];
-            self.timer = [NSTimer scheduledTimerWithTimeInterval:5.0f target:nil selector:nil userInfo:nil repeats:NO];
-            NSLog(@"fireDate is %@. currentTimerStart is %@", [self.timer fireDate], self.currentTimerStart);
+        [self startTimer];
     }
     else
     {
-        NSLog(@"Timer started at: %@ ", self.currentTimerStart);
-        [self.timer invalidate];
-        NSLog(@"End time: %@", [NSDate date]);
-        NSTimeInterval timeToAdd = [[NSDate date] timeIntervalSinceDate:self.currentTimerStart];
-        self.timeElapsed += timeToAdd;
-        NSLog(@"Time elapsed %lf ", self.timeElapsed);
+        [self stopTimer];
     }
 
 }
