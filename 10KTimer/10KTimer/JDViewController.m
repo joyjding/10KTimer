@@ -9,6 +9,9 @@
 #import "JDViewController.h"
 
 @interface JDViewController () //properties go here (things that you want to interact with)
+@property (strong, nonatomic) IBOutlet UIView *timeElapsedView;
+@property (strong, nonatomic) IBOutlet UILabel *timeElapsedText;
+
 @property (strong, nonatomic) NSArray *colorObjects;
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSDate *currentTimerStart;
@@ -21,10 +24,14 @@
 
 @implementation JDViewController
 
-#define kBlockSize 64.0f
+#define kBlockSize 32.0f
 #define kLevels 8
-#define kNumberOfBlocks 5
+#define kNumberOfBlocks 10
 #define kCreateBlockInterval 1.0f
+
+//ToDo - have block size auto calculated. create function getblockSize that
+//calculated based on kNumberofBlocks, create a property for it. kLevels
+//adjustable?????
 
 
 
@@ -35,6 +42,7 @@
     self.level = 1;
     self.endXIndex = 0;
     self.randomXPositions = [self createRandomXPositions];
+    self.timeElapsedView.hidden=YES;
 }
 
 - (void) viewWillAppear:(BOOL)animated //happens anytime you go back to the screen
@@ -90,7 +98,7 @@
 
 - (NSMutableArray*) createRandomXPositions
 {
-    NSArray* endXPositions = @[@0,@1,@2,@3,@4];//make an array each time we move levels //@ makes it an NSinteger which can be a float or an integer. Apparently arrays don't take numbers in objective c????
+    NSArray* endXPositions = [self createStartArray:kNumberOfBlocks];
     NSMutableArray *endXPositionsMutable = [NSMutableArray arrayWithArray:endXPositions];//super strange conversion to NSMutableArray
 
     NSMutableArray *randomXPositions = [NSMutableArray array]; //array creates an empy array
@@ -100,6 +108,16 @@
         [endXPositionsMutable removeObjectAtIndex:index];
     }
     return randomXPositions;
+}
+
+- (NSArray*) createStartArray: (int) length
+{
+    NSMutableArray* startArray = [NSMutableArray array];
+    for (int i=0; i<length; i++)
+    {
+        [startArray addObject: @(i)];
+    }
+    return startArray;
 }
 
 - (void) createBlockAndAnimate: (int) level endX:(int)endX //two parameters
@@ -185,10 +203,13 @@
     if (switchControl.on)
     {
         [self startTimer];
+        self.timeElapsedView.hidden = YES;
     }
     else
     {
         [self stopTimer];
+        self.timeElapsedView.hidden = NO;
+        self.timeElapsedText.text = [NSString stringWithFormat:@"Great Job! You've worked for %lf seconds", self.timeElapsed];
     }
 
 }
