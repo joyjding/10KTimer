@@ -140,12 +140,12 @@
     CGFloat newBlockOriginY = CGRectGetHeight(newBlock.superview.bounds)-level*CGRectGetHeight(newBlock.frame);
     
     [UIView animateWithDuration:4.0f
-                          delay:0.5f
+                          delay:1.0f
                         options:UIViewAnimationOptionCurveLinear
                      animations:^()
                                     {
                                         newBlock.frame=CGRectMake(newBlockOriginX, newBlockOriginY, kBlockSize, kBlockSize);
-                                        newBlock.alpha = 1.0f; //changes transparency of block as it falls down
+                                        newBlock.alpha = 0.8f; //changes transparency of block as it falls down
                                     }
                                         completion:^(BOOL finished) {
                      }
