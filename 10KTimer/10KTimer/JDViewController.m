@@ -233,6 +233,15 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
     
     if (buttonIndex == 0) {
+        //read total time
+        CGFloat kPrevTotalTime = [[NSUserDefaults standardUserDefaults] floatForKey:@"kTimingSession"];
+        //add to total time
+        kPrevTotalTime+=self.timeElapsed;
+        
+        [[NSUserDefaults standardUserDefaults] setFloat:kPrevTotalTime forKey: @"kTimingSession"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        self.timeElapsed = 0.0f;
+        
         //recreate previously dismissed viewcontroller
         JDWelcomeViewController *welcomeView = [[JDWelcomeViewController alloc] initWithNibName:@"JDWelcomeViewController" bundle:nil];
         [self presentViewController: welcomeView animated:YES completion:nil];
