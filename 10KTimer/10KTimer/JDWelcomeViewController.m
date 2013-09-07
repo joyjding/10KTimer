@@ -36,4 +36,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Button Action
+
+- (IBAction) dismissViewController:(id) sender
+{
+    [self dismissViewControllerAnimated:YES completion:^{ //empty block for completion action
+    }];
+}
+
 @end

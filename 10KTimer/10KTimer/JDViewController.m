@@ -38,6 +38,7 @@
 - (void)viewDidLoad //before view loads the first time, do something
 {
     [super viewDidLoad];
+    
     self.timeElapsed = 0.0f;
     self.level = 1;
     self.endXIndex = 0;
