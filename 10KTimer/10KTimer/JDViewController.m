@@ -7,6 +7,7 @@
 //
 
 #import "JDViewController.h"
+#import "JDWelcomeViewController.h"
 
 @interface JDViewController () //properties go here (things that you want to interact with)
 @property (strong, nonatomic) IBOutlet UIView *timeElapsedView;
@@ -209,10 +210,33 @@
     else
     {
         [self stopTimer];
-        self.timeElapsedView.hidden = NO;
-        self.timeElapsedText.text = [NSString stringWithFormat:@"Great Job! You've worked for %lf seconds", self.timeElapsed];
+        [self saveOption];
+        //present modal action screen with buttons for save versus continue
+        //modal action screen -> saves ->represents welcome screen
+        
+//        self.timeElapsedView.hidden = NO;
+//        self.timeElapsedText.text = [NSString stringWithFormat:@"Great Job! You've worked for %lf seconds", self.timeElapsed];
     }
 
+}
+
+- (void) saveOption {
+    //allocate Modal action sheet
+    NSString *modalTitle = [NSString stringWithFormat:@"Finished? You've worked for %lf seconds", self.timeElapsed];
+    UIActionSheet *modalSave = [[UIActionSheet alloc]initWithTitle:modalTitle delegate:self cancelButtonTitle: @"Nope, continue timing." destructiveButtonTitle:@"Yup!" otherButtonTitles:nil];
+    //delegate - receives events from a controller, and handles them
+    [modalSave showInView:self.view];
+}
+
+#pragma mark - UI Action Sheet Delegate Functions
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    
+    if (buttonIndex == 0) {
+        //recreate previously dismissed viewcontroller
+        JDWelcomeViewController *welcomeView = [[JDWelcomeViewController alloc] initWithNibName:@"JDWelcomeViewController" bundle:nil];
+        [self presentViewController: welcomeView animated:YES completion:nil];
+    }
 }
 @end
 

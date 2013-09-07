@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface JDViewController : UIViewController
+@interface JDViewController : UIViewController <UIActionSheetDelegate>
 
 @end
