@@ -23,6 +23,8 @@
 		A80B7B4D1788B2D300196C06 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A80B7B281788B2D300196C06 /* Foundation.framework */; };
 		A80B7B551788B2D300196C06 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A80B7B531788B2D300196C06 /* InfoPlist.strings */; };
 		A80B7B581788B2D300196C06 /* _0KTimerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A80B7B571788B2D300196C06 /* _0KTimerTests.m */; };
+		A8E1AE5B17DBD6FA0053E900 /* JDWelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A8E1AE5917DBD6FA0053E900 /* JDWelcomeViewController.m */; };
+		A8E1AE5C17DBD6FA0053E900 /* JDWelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A8E1AE5A17DBD6FA0053E900 /* JDWelcomeViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +62,9 @@
 		A80B7B571788B2D300196C06 /* _0KTimerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _0KTimerTests.m; sourceTree = "<group>"; };
 		A80B7B631788BA9500196C06 /* catdog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = catdog.png; sourceTree = "<group>"; };
 		A80B7B641788BA9500196C06 /* catdog@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "catdog@2x.png"; sourceTree = "<group>"; };
+		A8E1AE5817DBD6FA0053E900 /* JDWelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDWelcomeViewController.h; sourceTree = "<group>"; };
+		A8E1AE5917DBD6FA0053E900 /* JDWelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDWelcomeViewController.m; sourceTree = "<group>"; };
+		A8E1AE5A17DBD6FA0053E900 /* JDWelcomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JDWelcomeViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +124,9 @@
 		A80B7B2C1788B2D300196C06 /* 10KTimer */ = {
 			isa = PBXGroup;
 			children = (
+				A8E1AE5817DBD6FA0053E900 /* JDWelcomeViewController.h */,
+				A8E1AE5917DBD6FA0053E900 /* JDWelcomeViewController.m */,
+				A8E1AE5A17DBD6FA0053E900 /* JDWelcomeViewController.xib */,
 				A80B7B351788B2D300196C06 /* JDAppDelegate.h */,
 				A80B7B361788B2D300196C06 /* JDAppDelegate.m */,
 				A80B7B3E1788B2D300196C06 /* JDViewController.h */,
@@ -258,6 +266,7 @@
 				A80B7B3B1788B2D300196C06 /* Default@2x.png in Resources */,
 				A80B7B3D1788B2D300196C06 /* Default-568h@2x.png in Resources */,
 				A80B7B431788B2D300196C06 /* JDViewController.xib in Resources */,
+				A8E1AE5C17DBD6FA0053E900 /* JDWelcomeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +304,7 @@
 				A80B7B331788B2D300196C06 /* main.m in Sources */,
 				A80B7B371788B2D300196C06 /* JDAppDelegate.m in Sources */,
 				A80B7B401788B2D300196C06 /* JDViewController.m in Sources */,
+				A8E1AE5B17DBD6FA0053E900 /* JDWelcomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
