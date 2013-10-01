@@ -32,7 +32,7 @@
     // Do any additional setup after loading the view from its nib.
     
     CGFloat kTotalTime = [[NSUserDefaults standardUserDefaults] floatForKey:@"kTimingSession"];
-    NSString *TotalTimeString = [NSString stringWithFormat: @"Great job! So far you've accomplished %f hours out of your 10,000 hour goal. Ready to go again?", kTotalTime];
+    NSString *TotalTimeString = [NSString stringWithFormat: @"Great job! So far you've accomplished %f hours out of your 10,000 hour goal. Ready to go again?", kTotalTime/3600.0];
     self.welcomeTotalTime.text = TotalTimeString;
     [self roundCorners];
 }
